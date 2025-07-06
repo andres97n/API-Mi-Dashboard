@@ -1,15 +1,33 @@
-import { Injectable } from '@nestjs/common';
+import { Body, Injectable } from '@nestjs/common';
+import { InjectModel } from '@nestjs/mongoose';
+import { Model } from 'mongoose';
+
 import { CreateSerieDto } from './dto/create-serie.dto';
 import { UpdateSerieDto } from './dto/update-serie.dto';
+import { Serie } from './entities/serie.entity';
+import { handleExceptions } from 'src/common/utils';
+
 
 @Injectable()
 export class SerieService {
-  create(createSerieDto: CreateSerieDto) {
-    return 'This action adds a new serie';
+
+  constructor(
+    @InjectModel( Serie.name ) 
+    private readonly serieModel: Model<Serie>,
+  ) {}
+
+  async create(@Body() createSerieDto: CreateSerieDto) {
+    try {
+      const serie = await this.serieModel.create( createSerieDto );
+      return serie;
+
+    } catch (error) {
+      handleExceptions(error);
+    }
   }
 
-  findAll() {
-    return `This action returns all serie`;
+  async findAll() {
+    return await this.serieModel.find();
   }
 
   findOne(id: number) {

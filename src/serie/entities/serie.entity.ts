@@ -1,7 +1,7 @@
-import { Prop, Schema } from "@nestjs/mongoose";
-import { SerieEmissionStatus, SerieStatus, SerieType, SerieViewStatus } from "src/common/constants/serie.constant";
+import { Prop, Schema, SchemaFactory } from "@nestjs/mongoose";
 
 import { BaseSchema } from "src/entities/base.entity";
+import { SerieEmissionStatus, SerieStatus, SerieType, SerieViewStatus } from "src/common/constants";
 
 
 @Schema({ timestamps: true })
@@ -25,7 +25,7 @@ export class Serie extends BaseSchema{
 
   @Prop({
     type: String,
-    required: false,
+    required: true,
     default: 'ANIME_SERIES',
     enum: [...SerieType],
   })
@@ -33,8 +33,9 @@ export class Serie extends BaseSchema{
 
   @Prop({
     type: String,
-    required: true,
-    trim: true
+    required: false,
+    trim: true,
+    default: 'S/N',
   })
   synopsis: string;
 
@@ -46,16 +47,17 @@ export class Serie extends BaseSchema{
   episodeCount: number;
 
   @Prop({
-    type: String,
+    type: Date,
     required: true,
   })
-  startDate: string;
+  startDate: Date;
 
   @Prop({
-    type: String,
-    required: true,
+    type: Date,
+    required: false,
+    default: ''
   })
-  endDate: string;
+  endDate: Date;
 
   @Prop({
     type: String,
@@ -104,3 +106,5 @@ export class Serie extends BaseSchema{
   progress: number;
   
 }
+
+export const SerieSchema = SchemaFactory.createForClass(Serie);
