@@ -1,8 +1,11 @@
 import { Prop, Schema } from "@nestjs/mongoose";
+import { SerieEmissionStatus, SerieStatus, SerieType, SerieViewStatus } from "src/common/constants/serie.constant";
+
+import { BaseSchema } from "src/entities/base.entity";
 
 
 @Schema({ timestamps: true })
-export class Serie {
+export class Serie extends BaseSchema{
   
   @Prop({ 
     type: String,
@@ -24,7 +27,7 @@ export class Serie {
     type: String,
     required: false,
     default: 'ANIME_SERIES',
-    enum: ['ANIME_SERIES', 'MANGA_SERIES', 'TV_SERIES', 'MOVIE', 'DOCUMENTARY'],
+    enum: [...SerieType],
   })
   type: string;
 
@@ -73,7 +76,7 @@ export class Serie {
     type: Boolean,
     required: false,
     default: 'EMPTY',
-    enum: ['IN_BROADCAST', 'INCOMPLETE', 'COMPLETED', 'UNFINISHED', 'CANCELED', 'EMPTY'],
+    enum: [...SerieStatus],
   })
   status: boolean;
 
@@ -81,7 +84,7 @@ export class Serie {
     type: String,
     required: false,
     default: 'SERIES_NOT_STARTED',
-    enum: ['FINISHED_SERIE', 'UNFINISHED_SERIES', 'STREAMING_SERIES', 'SERIES_NOT_STARTED'],
+    enum: [...SerieEmissionStatus],
   })
   emissionStatus: string;
 
@@ -89,7 +92,7 @@ export class Serie {
     type: String,
     required: false,
     default: 'UNSEEN_SERIES',
-    enum: ['SEEN_SERIES', 'UNSEEN_SERIES', 'INCOMPLETE_VIEW_SERIES'],
+    enum: [...SerieViewStatus],
   })
   viewStatus: string;
 
