@@ -1,6 +1,6 @@
 import { FilterQuery, Model, ProjectionType, SortOrder } from 'mongoose';
 
-import { PaginationQueryDto } from 'src/dto/pagination-query.dto';
+import { PaginationQueryDto } from 'src/common/dto/pagination-query.dto';
 import { PaginatedResult } from '../interfaces';
 
 
