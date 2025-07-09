@@ -6,7 +6,6 @@ import { Prop, Schema } from '@nestjs/mongoose';
 export class BaseSchema {
   @Prop({
     type: String,
-    required: false,
     default: 'default', 
     enum: ['A', 'I', 'D'],
   })
