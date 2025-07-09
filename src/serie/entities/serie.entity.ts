@@ -111,4 +111,7 @@ export class Serie extends BaseSchema{
   
 }
 
-export const SerieSchema = SchemaFactory.createForClass(Serie);
+const SerieSchema = SchemaFactory.createForClass(Serie);
+SerieSchema.add(SchemaFactory.createForClass(BaseSchema));
+
+export { SerieSchema };
