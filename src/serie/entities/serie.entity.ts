@@ -1,10 +1,14 @@
 import { Prop, Schema, SchemaFactory } from "@nestjs/mongoose";
 
-import { BaseSchema } from "src/entities/base.entity";
+import { BaseSchema } from "src/common/entities/base.entity";
 import { SerieEmissionStatus, SerieStatus, SerieType, SerieViewStatus } from "src/common/constants";
 
 
-@Schema({ timestamps: true })
+@Schema({ 
+  timestamps: true,
+  toJSON: { versionKey: false },
+  toObject: { versionKey: false }, 
+})
 export class Serie extends BaseSchema{
   
   @Prop({ 
@@ -75,12 +79,12 @@ export class Serie extends BaseSchema{
   bannerImageUrl: string;
 
   @Prop({
-    type: Boolean,
+    type: String,
     required: false,
     default: 'EMPTY',
     enum: [...SerieStatus],
   })
-  status: boolean;
+  status: string;
 
   @Prop({
     type: String,

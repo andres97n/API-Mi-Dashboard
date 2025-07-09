@@ -7,7 +7,7 @@ export class BaseSchema {
   @Prop({
     type: String,
     required: false,
-    default: 'default', 
+    default: 'A', 
     enum: ['A', 'I', 'D'],
   })
   state: string;

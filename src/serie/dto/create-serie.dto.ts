@@ -1,9 +1,10 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsDate, IsInt, IsOptional, IsPositive, IsString, IsUrl, MinLength  } from 'class-validator';
+import { IsDate, IsEnum, IsInt, IsOptional, IsPositive, IsString, IsUrl, MinLength  } from 'class-validator';
 import { Transform } from 'class-transformer';
 
 import { SerieEmissionStatus, SerieStatus, SerieType, SerieViewStatus } from 'src/common/constants';
 import { getDateFromString } from 'src/common/utils';
+import { SerieEmissionStatusEnum, SerieStatusEnum, SerieTypeEnum, SerieViewStatusEnum } from 'src/common/enums';
 
 
 export class CreateSerieDto {
@@ -21,6 +22,8 @@ export class CreateSerieDto {
     description: 'ID externo de la serie',
     required: true,
   })
+  @IsString()
+  @MinLength(1)
   readonly externalId: string;
 
   @ApiProperty({
@@ -29,9 +32,8 @@ export class CreateSerieDto {
     required: true,
     enum: [...SerieType],
   })
-  @IsString()
-  @MinLength(5)
-  readonly type: string;
+  @IsEnum(SerieTypeEnum)
+  readonly type: SerieTypeEnum;
 
   @ApiProperty({
     example: 'Synopsis de la serie',
@@ -49,7 +51,6 @@ export class CreateSerieDto {
     required: false,
   })
   @IsInt()
-  @IsPositive()
   @IsOptional()
   readonly episodeCount: number;
 
@@ -95,9 +96,8 @@ export class CreateSerieDto {
     required: false,
     enum: [...SerieStatus],
   })
-  @IsString()
-  @IsOptional()
-  readonly status: string;
+  @IsEnum(SerieStatusEnum)
+  readonly status: SerieStatusEnum;
   
   @ApiProperty({
     example: 'SERIES_NOT_STARTED',
@@ -105,9 +105,8 @@ export class CreateSerieDto {
     required: false,
     enum: [...SerieEmissionStatus]
   })
-  @IsString()
-  @IsOptional()
-  readonly emissionStatus: string;
+  @IsEnum(SerieEmissionStatusEnum)
+  readonly emissionStatus: SerieEmissionStatusEnum;
   
   @ApiProperty({
     example: 'UNSEEN_SERIES',
@@ -115,9 +114,8 @@ export class CreateSerieDto {
     required: false,
     enum: [...SerieViewStatus]
   })
-  @IsString()
-  @IsOptional()
-  readonly viewStatus: string;
+  @IsEnum(SerieViewStatusEnum)
+  readonly viewStatus: SerieViewStatusEnum;
   
   @ApiProperty({
     example: 50,
