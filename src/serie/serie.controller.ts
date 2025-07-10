@@ -1,7 +1,10 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, Query } from '@nestjs/common';
+
 import { SerieService } from './serie.service';
 import { CreateSerieDto } from './dto/create-serie.dto';
 import { UpdateSerieDto } from './dto/update-serie.dto';
+import { PaginationQueryDto } from 'src/common/dto/pagination-query.dto';
+
 
 @Controller('serie')
 export class SerieController {
@@ -15,6 +18,11 @@ export class SerieController {
   @Get()
   findAll() {
     return this.serieService.findAll();
+  }
+
+  @Get()
+  findAllWithFilter(@Query() query: PaginationQueryDto) {
+    return this.serieService.findAllWithFilter(query);
   }
 
   @Get(':id')
