@@ -1,26 +1,27 @@
-import { Response } from "../interfaces";
+import { HttpStatus } from "@nestjs/common";
+
+import { ErrorResponseDetail, Response } from "../interfaces";
 
 
 export const successResponse = (
   data: any, 
-  code: number = 200,
+  statusCode: number = 200,
   message: string = 'Proceso ejecutado correctamente',
 ): Response => ({
   ok: true,
   data,
-  code,
+  statusCode,
   message,
   timestamp: new Date().toISOString(),
 });
 
 export const errorResponse = (
-  message: string, 
-  url: string = '', 
-  code: number = 400
+  errorDetail: ErrorResponseDetail
 ): Response => ({
   ok: false,
-  code,
-  message,
-  path: url,
+  statusCode: errorDetail.statusCode ?? HttpStatus.INTERNAL_SERVER_ERROR,
+  error: errorDetail.error ?? null,
+  message: errorDetail.message ?? 'Internal server error',
+  path: errorDetail.url ?? '/api',
   timestamp: new Date().toISOString(),
 });

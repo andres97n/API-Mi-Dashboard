@@ -8,6 +8,8 @@ import {
 import { Request, Response } from 'express';
 
 import { errorResponse } from './response.helper';
+import { ErrorResponseDetail } from '../interfaces';
+
 
 @Catch()
 export class AllExceptionsFilter implements ExceptionFilter {
@@ -20,12 +22,35 @@ export class AllExceptionsFilter implements ExceptionFilter {
       ? exception.getStatus()
       : HttpStatus.INTERNAL_SERVER_ERROR;
 
-    const message = exception instanceof HttpException
+    let message = exception instanceof HttpException
       ? exception.getResponse()
       : exception.message || 'Internal server error';
 
+    let error: any = null;
+    if (typeof message !== 'string') error = message;
+
+    const errorDetail: ErrorResponseDetail = {
+      message: getErrorMessage(message),
+      statusCode: status,
+      url: request.url,
+      error
+    };
     response.status(status).json(
-      errorResponse(message, request.url, response.statusCode)
+      errorResponse(errorDetail)
     );
   }
+}
+
+export const getErrorMessage = (message: any): string => {
+  if (typeof message === 'string') return message;
+
+  if (typeof message === 'object' && 'message' in message) {
+    message = message.message;
+  }
+
+  if (Array.isArray(message) && message.length > 0) {
+    message = message[0];
+  }
+
+  return message || 'Internal server error';
 }

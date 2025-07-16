@@ -1,5 +1,5 @@
 import { DocumentBuilder } from '@nestjs/swagger/dist/document-builder';
-import { NestFactory } from '@nestjs/core';
+import { NestFactory, Reflector } from '@nestjs/core';
 import { SwaggerModule } from '@nestjs/swagger';
 import { ValidationPipe, VersioningType } from '@nestjs/common';
 
@@ -25,7 +25,7 @@ async function bootstrap() {
     })
   );
 
-  app.useGlobalInterceptors(new ResponseInterceptor());
+  app.useGlobalInterceptors(new ResponseInterceptor(app.get(Reflector)));
 
   app.useGlobalFilters(new AllExceptionsFilter());
 
