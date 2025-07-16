@@ -2,9 +2,9 @@ import { ApiProperty } from '@nestjs/swagger';
 import { IsDate, IsEnum, IsInt, IsOptional, IsPositive, IsString, IsUrl, MinLength  } from 'class-validator';
 import { Transform } from 'class-transformer';
 
-import { SerieEmissionStatus, SerieStatus, SerieType, SerieViewStatus } from 'src/common/constants';
+import { SerieEmissionStatus, SerieStatus, SerieType, SerieViewStatus } from 'src/serie/constants';
 import { getDateFromString } from 'src/common/utils';
-import { SerieEmissionStatusEnum, SerieStatusEnum, SerieTypeEnum, SerieViewStatusEnum } from 'src/common/enums';
+import { SerieEmissionStatusEnum, SerieStatusEnum, SerieTypeEnum, SerieViewStatusEnum } from 'src/serie/enums';
 
 
 export class CreateSerieDto {

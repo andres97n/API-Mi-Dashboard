@@ -7,6 +7,7 @@ import { Serie } from './entities/serie.entity';
 import { handleExceptions } from 'src/common/utils';
 import { PaginationQueryDto } from 'src/common/dto/pagination-query.dto';
 import { paginate } from 'src/common/helpers/pagination.helper';
+import { SERIES_DEFAULT_FILTER } from './constants';
 
 
 @Injectable()
@@ -28,11 +29,15 @@ export class SerieService {
   }
 
   async findAll() {
-    return await this.serieModel.find();
+    return await this.serieModel.find(SERIES_DEFAULT_FILTER);
   }
 
   async findAllWithFilter(paginationQuery: PaginationQueryDto) {
-    return await paginate(this.serieModel, paginationQuery);
+    return await paginate(
+      this.serieModel, 
+      paginationQuery, 
+      SERIES_DEFAULT_FILTER
+    );
   }
 
   async findOne(id: string) {
@@ -52,7 +57,11 @@ export class SerieService {
   }
 
   async remove(id: string) {
-    const serie = await this.serieModel.findByIdAndDelete(id);
+    const serie = await this.serieModel.findByIdAndUpdate(
+      id,
+      { state: 'D' },
+      { new: true }
+    );
     if (!serie) throw new NotFoundException(`Serie with id ${id} not found`);
     return serie;
   }

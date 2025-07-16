@@ -1,7 +1,7 @@
 import { Prop, Schema, SchemaFactory } from "@nestjs/mongoose";
 
 import { BaseSchema } from "src/common/entities/base.entity";
-import { SerieEmissionStatus, SerieStatus, SerieType, SerieViewStatus } from "src/common/constants";
+import { SerieEmissionStatus, SerieStatus, SerieType, SerieViewStatus } from "src/serie/constants";
 
 
 @Schema({ 
