@@ -1,5 +1,6 @@
 // common/schemas/base.schema.ts
 import { Prop, Schema } from '@nestjs/mongoose';
+import { BASE_ENTITY_STATES } from '../constants';
 
 
 @Schema()
@@ -8,7 +9,7 @@ export class BaseSchema {
     type: String,
     required: false,
     default: 'A', 
-    enum: ['A', 'I', 'D'],
+    enum: [...BASE_ENTITY_STATES],
   })
   state: string;
 

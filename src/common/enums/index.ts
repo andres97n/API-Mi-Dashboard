@@ -1,1 +1,1 @@
-export * from "./serie.enum";
+export * from "./global.enum";
