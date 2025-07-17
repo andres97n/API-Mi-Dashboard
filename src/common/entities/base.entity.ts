@@ -7,6 +7,7 @@ import { BASE_ENTITY_STATES } from '../constants';
 export class BaseSchema {
   @Prop({
     type: String,
+    required: false,
     default: 'A', 
     enum: [...BASE_ENTITY_STATES],
   })
