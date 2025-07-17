@@ -5,6 +5,7 @@ import { SerieModule } from './serie/serie.module';
 import { HttpModule } from '@nestjs/axios';
 
 import { DEFAULT_MONGO_URI } from './common/constants';
+import { KitsuApiModule } from './kitsu-api/kitsu-api.module';
 
 
 @Module({
@@ -21,6 +22,8 @@ import { DEFAULT_MONGO_URI } from './common/constants';
     }),
 
     SerieModule,
+
+    KitsuApiModule,
   ],
   controllers: [],
   providers: [],
