@@ -2,6 +2,7 @@ import { FilterQuery, Model, ProjectionType, SortOrder } from 'mongoose';
 
 import { PaginationQueryDto } from 'src/common/dto/pagination-query.dto';
 import { PaginatedResult } from '../interfaces';
+import { DEFAULT_PAGE, DEFAULT_PAGE_SIZE } from '../constants';
 
 
 export async function paginate<T>(
@@ -11,7 +12,7 @@ export async function paginate<T>(
   sort: Record<string, SortOrder> = { createdAt: -1 },
   projection?: ProjectionType<T> | null,
 ): Promise<PaginatedResult<T>> {
-  const { limit = 10, page = 1 } = paginationQuery;
+  const { limit = DEFAULT_PAGE_SIZE, page = DEFAULT_PAGE } = paginationQuery;
   const skip = (page - 1) * limit;
 
   const [data, total] = await Promise.all([

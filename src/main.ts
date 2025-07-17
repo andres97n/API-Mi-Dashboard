@@ -4,7 +4,7 @@ import { SwaggerModule } from '@nestjs/swagger';
 import { ValidationPipe, VersioningType } from '@nestjs/common';
 
 import { AppModule } from './app.module';
-import { ResponseInterceptor } from './common/interceptors/response.interceptor';
+import { ResponseInterceptor } from './common/interceptors';
 import { AllExceptionsFilter } from './common/helpers';
 
 
