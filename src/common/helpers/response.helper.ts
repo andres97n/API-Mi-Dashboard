@@ -7,13 +7,17 @@ export const successResponse = (
   data: any, 
   statusCode: number = 200,
   message: string = 'Proceso ejecutado correctamente',
-): Response => ({
-  ok: true,
-  data,
-  statusCode,
-  message,
-  timestamp: new Date().toISOString(),
-});
+): Response => (
+  {
+    ok: true,
+    data: data?.data ?? data,
+    statusCode,
+    message,
+    timestamp: new Date().toISOString(),
+    ...(data?.meta && { meta: data.meta }),
+  }
+);
+
 
 export const errorResponse = (
   errorDetail: ErrorResponseDetail
