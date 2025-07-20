@@ -16,7 +16,7 @@ export interface KitsuResponse {
 
 export interface KitsuSearchResponse {
   data: Array<any> | object;
-  metaData: {
+  meta: {
     count: number;
     total?: number;
     first: string;
