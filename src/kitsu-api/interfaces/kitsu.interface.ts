@@ -13,3 +13,15 @@ export interface KitsuResponse {
     prev?: string;
   };
 }
+
+export interface KitsuSearchResponse {
+  data: Array<any> | object;
+  metaData: {
+    count: number;
+    total?: number;
+    first: string;
+    last: string;
+    next?: string;
+    prev?: string;
+  };
+}
