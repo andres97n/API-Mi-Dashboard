@@ -1,36 +1,35 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, Query } from '@nestjs/common';
+import { Controller, Get, Param, Query, ParseIntPipe } from '@nestjs/common';
+import { ApiOperation } from '@nestjs/swagger';
+
 import { KitsuApiService } from './kitsu-api.service';
 import { SearchKitsuApiDto } from './dto';
-import { ResponseMessage } from 'src/common/decorators/response-message.decorator';
+import { ResponseMessage } from 'src/common/decorators';
 
 
 @Controller('kitsu-api')
 export class KitsuApiController {
   constructor(private readonly kitsuApiService: KitsuApiService) {}
 
-  // @Post()
-  // create(@Body() createKitsuApiDto: CreateKitsuApiDto) {
-  //   return this.kitsuApiService.create(createKitsuApiDto);
-  // }
-
+  @ApiOperation({ summary: 'Find all series by query' })
   @ResponseMessage('Kitsu API search results')
   @Get()
   findAll(@Query() query: SearchKitsuApiDto) {
     return this.kitsuApiService.findAll(query);
   }
 
-  // @Get(':id')
-  // findOne(@Param('id') id: string) {
-  //   return this.kitsuApiService.findOne(+id);
-  // }
+  @ApiOperation({ summary: 'Obtains series by ID with default type' })
+  @Get(':id')
+  findOne(@Param('id', ParseIntPipe) id: number) {
+    return this.kitsuApiService.findOne(id, 'anime');
+  }
 
-  // @Patch(':id')
-  // update(@Param('id') id: string, @Body() updateKitsuApiDto: UpdateKitsuApiDto) {
-  //   return this.kitsuApiService.update(+id, updateKitsuApiDto);
-  // }
-
-  // @Delete(':id')
-  // remove(@Param('id') id: string) {
-  //   return this.kitsuApiService.remove(+id);
-  // }
+  @ApiOperation({ summary: 'Obtains series by type with ID' })
+  @ResponseMessage('Kitsu API found serie by ID')
+  @Get(':type/:id')
+  findOneWithType(
+    @Param('type') type: string,
+    @Param('id', ParseIntPipe) id: number,
+  ) {
+    return this.kitsuApiService.findOne(id, type);
+  }
 }
