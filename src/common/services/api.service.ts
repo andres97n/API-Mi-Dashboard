@@ -12,9 +12,13 @@ export class ApiService {
       this.http.get<T>(apiUrl).pipe(
         map(response => response.data),
         catchError(err => {
+          console.log(err.response?.data || 'Unknown error');
+          const { status, data } = err.response || {};
+
+          //TODO: Handle specific error cases
            throw new HttpException(
             'Fetch error', 
-            err.response?.status || 500
+            status || 500
           );
         }),
       ),
