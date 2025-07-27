@@ -1,9 +1,10 @@
-import { Controller, Get, Param, Query, ParseIntPipe } from '@nestjs/common';
+import { Controller, Get, Param, Query, ParseIntPipe, UseInterceptors } from '@nestjs/common';
 import { ApiOperation } from '@nestjs/swagger';
 
 import { KitsuApiService } from './kitsu-api.service';
 import { SearchKitsuApiDto } from './dto';
 import { ResponseMessage } from 'src/common/decorators';
+import { ReplaceKitsuApiUrlInterceptor } from './interceptors';
 
 
 @Controller('kitsu-api')
@@ -17,12 +18,15 @@ export class KitsuApiController {
     return this.kitsuApiService.findAll(query);
   }
 
+  @UseInterceptors(ReplaceKitsuApiUrlInterceptor)
   @ApiOperation({ summary: 'Obtains series by ID with default type' })
+  @ResponseMessage('Kitsu API found serie by ID')
   @Get(':id')
   findOne(@Param('id', ParseIntPipe) id: number) {
     return this.kitsuApiService.findOne(id, 'anime');
   }
 
+  @UseInterceptors(ReplaceKitsuApiUrlInterceptor)
   @ApiOperation({ summary: 'Obtains series by type with ID' })
   @ResponseMessage('Kitsu API found serie by ID')
   @Get(':type/:id')
