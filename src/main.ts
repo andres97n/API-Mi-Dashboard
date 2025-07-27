@@ -6,12 +6,13 @@ import { ValidationPipe, VersioningType } from '@nestjs/common';
 import { AppModule } from './app.module';
 import { ResponseInterceptor } from './common/interceptors';
 import { AllExceptionsFilter } from './common/helpers';
+import { API_SUB_PATH } from './common/constants';
 
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
 
-  app.setGlobalPrefix('api');
+  app.setGlobalPrefix(process.env.API_SUB_PATH ?? API_SUB_PATH);
 
   app.enableVersioning({
     type: VersioningType.URI,

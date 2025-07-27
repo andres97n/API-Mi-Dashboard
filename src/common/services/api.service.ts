@@ -7,17 +7,20 @@ import { catchError, firstValueFrom, map } from "rxjs";
 export class ApiService {
   constructor(private readonly http: HttpService) {}
 
-  async getData<T>(apiUrl: string): Promise<T> {
+  async getData<T>(
+    apiUrl: string, 
+    showError?: (data: any) => void
+  ): Promise<T> {
     const data = await firstValueFrom(
       this.http.get<T>(apiUrl).pipe(
         map(response => response.data),
         catchError(err => {
-          console.log(err.response?.data || 'Unknown error');
           const { status, data } = err.response || {};
 
-          //TODO: Handle specific error cases
-           throw new HttpException(
-            'Fetch error', 
+          if (showError) showError(data);
+
+          throw new HttpException(
+            'Fetch error',
             status || 500
           );
         }),

@@ -9,6 +9,7 @@ import { Request, Response } from 'express';
 
 import { errorResponse } from './response.helper';
 import { ErrorResponseDetail } from '../interfaces';
+import { DEFAULT_EXCEPTION_MESSAGE } from '../constants';
 
 
 @Catch()
@@ -52,5 +53,9 @@ export const getErrorMessage = (message: any): string => {
     message = message[0];
   }
 
-  return message || 'Internal server error';
+  return message || DEFAULT_EXCEPTION_MESSAGE;
+}
+
+export const getExceptionDefault = (status: number): HttpException => {
+  return new HttpException(DEFAULT_EXCEPTION_MESSAGE, status);
 }
