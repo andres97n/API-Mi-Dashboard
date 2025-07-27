@@ -5,6 +5,9 @@ import { SerieModule } from './serie/serie.module';
 import { HttpModule } from '@nestjs/axios';
 
 import { DEFAULT_MONGO_URI } from './common/constants';
+// import { KitsuApiModule } from './kitsu-api/kitsu-api.module';
+import { RequestContext } from './common/providers';
+import { RequestContextModule } from './common/request-context.module';
 
 
 @Module({
@@ -21,8 +24,13 @@ import { DEFAULT_MONGO_URI } from './common/constants';
     }),
 
     SerieModule,
+
+    // KitsuApiModule,
+
+    RequestContextModule
   ],
   controllers: [],
-  providers: [],
+  providers: [RequestContext],
+  exports: [RequestContext],
 })
 export class AppModule {}
