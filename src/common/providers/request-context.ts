@@ -11,7 +11,8 @@ export class RequestContext {
 
   getBaseUrl(): string {
     const apiSubPath = process.env.API_SUB_PATH || API_SUB_PATH;
-    const apiVersionPath = this.req.originalUrl.split('/')[2] ?? null;
-    return `${this.req.protocol}://${this.req.get('Host')}/${apiSubPath}/${apiVersionPath ?? ''}`;
+    const version = this.req.originalUrl.split('/')[2] ?? null;
+    const apiVersionPath = version ? `${version}/` : '';
+    return `${this.req.protocol}://${this.req.get('Host')}/${apiSubPath}/${apiVersionPath}`;
   }
 }
