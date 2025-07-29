@@ -12,7 +12,7 @@ export interface Response {
 
 export interface ErrorResponseDetail {
   message: string;
+  statusCode: number;
   url?: string;
-  statusCode?: number;
   error?: any;
 }
