@@ -8,14 +8,9 @@ export const replaceKitsuApiUrls = (
   newBase: string,
 ): any  => {
 
-  // if (typeof obj === 'string') {
-  //   if (obj.startsWith(oldBase)) return obj.replace(oldBase, newBase);
-  //   return obj;
-  // }
-
-  // if (Array.isArray(obj)) {
-  //   return obj.map(item => replaceKitsuUrls(item, oldBase, newBase));
-  // }
+  if (Array.isArray(obj)) {
+    return obj.map(item => replaceKitsuApiUrls(item, oldBase, newBase));
+  }
 
   if (obj !== null && typeof obj === 'object') {
     const result: any = {};

@@ -3,7 +3,7 @@ import { ApiOperation } from '@nestjs/swagger';
 
 import { KitsuApiService } from './kitsu-api.service';
 import { SearchKitsuApiDto } from './dto';
-import { ResponseMessage } from 'src/common/decorators';
+import { ApiResponseWrapper } from 'src/common/decorators';
 import { ReplaceKitsuApiUrlInterceptor } from './interceptors';
 
 
@@ -11,8 +11,9 @@ import { ReplaceKitsuApiUrlInterceptor } from './interceptors';
 export class KitsuApiController {
   constructor(private readonly kitsuApiService: KitsuApiService) {}
 
+  @UseInterceptors(ReplaceKitsuApiUrlInterceptor)
+  @ApiResponseWrapper(SearchKitsuApiDto, 200, 'Kitsu API search results')
   @ApiOperation({ summary: 'Find all series by query' })
-  @ResponseMessage('Kitsu API search results')
   @Get()
   findAll(@Query() query: SearchKitsuApiDto) {
     return this.kitsuApiService.findAll(query);
@@ -20,7 +21,7 @@ export class KitsuApiController {
 
   @UseInterceptors(ReplaceKitsuApiUrlInterceptor)
   @ApiOperation({ summary: 'Obtains series by ID with default type' })
-  @ResponseMessage('Kitsu API found serie by ID')
+  @ApiResponseWrapper(SearchKitsuApiDto, 200, 'Kitsu API found serie by ID')
   @Get(':id')
   findOne(@Param('id', ParseIntPipe) id: number) {
     return this.kitsuApiService.findOne(id, 'anime');
@@ -28,7 +29,7 @@ export class KitsuApiController {
 
   @UseInterceptors(ReplaceKitsuApiUrlInterceptor)
   @ApiOperation({ summary: 'Obtains series by type with ID' })
-  @ResponseMessage('Kitsu API found serie by ID')
+  @ApiResponseWrapper(SearchKitsuApiDto, 200, 'Kitsu API found serie by ID with type')
   @Get(':type/:id')
   findOneWithType(
     @Param('type') type: string,
