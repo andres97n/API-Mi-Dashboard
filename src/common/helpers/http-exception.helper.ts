@@ -4,12 +4,14 @@ import {
   ArgumentsHost,
   HttpException,
   HttpStatus,
+  NotFoundException,
 } from '@nestjs/common';
 import { Request, Response } from 'express';
 
 import { errorResponse } from './response.helper';
 import { ErrorResponseDetail } from '../interfaces';
 import { DEFAULT_EXCEPTION_MESSAGE } from '../constants';
+import { getErrorMessage } from './error.helper';
 
 
 @Catch()
@@ -35,27 +37,24 @@ export class AllExceptionsFilter implements ExceptionFilter {
       statusCode: status,
       url: request.url,
       error
-    };
+    };    
     response.status(status).json(
       errorResponse(errorDetail)
     );
   }
 }
 
-export const getErrorMessage = (message: any): string => {
-  if (typeof message === 'string') return message;
-
-  if (typeof message === 'object' && 'message' in message) {
-    message = message.message;
-  }
-
-  if (Array.isArray(message) && message.length > 0) {
-    message = message[0];
-  }
-
-  return message || DEFAULT_EXCEPTION_MESSAGE;
+export const getExceptionDefault = (status: number, message?: string) => {
+  throw new HttpException(message ?? DEFAULT_EXCEPTION_MESSAGE, status);
 }
 
-export const getExceptionDefault = (status: number): HttpException => {
-  return new HttpException(DEFAULT_EXCEPTION_MESSAGE, status);
-}
+export const showErrorException = (
+  errors: any, 
+  statusCode?: number,
+  subField?: string, 
+): void => {
+    if (statusCode === 404) 
+      throw new NotFoundException(getErrorMessage(errors, subField));
+
+    getExceptionDefault(500, getErrorMessage(errors, subField));
+  }

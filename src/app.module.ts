@@ -7,7 +7,7 @@ import { HttpModule } from '@nestjs/axios';
 import { DEFAULT_MONGO_URI } from './common/constants';
 // import { KitsuApiModule } from './kitsu-api/kitsu-api.module';
 import { RequestContext } from './common/providers';
-import { RequestContextModule } from './common/request-context.module';
+import { CommonModule } from './common/common.module';
 
 
 @Module({
@@ -17,6 +17,7 @@ import { RequestContextModule } from './common/request-context.module';
     ),
     
     HttpModule.register({
+      global: true,
       timeout: 5000,
       maxRedirects: 5,
       httpsAgent: new https.Agent({ keepAlive: true }),
@@ -27,7 +28,7 @@ import { RequestContextModule } from './common/request-context.module';
 
     // KitsuApiModule,
 
-    RequestContextModule
+    CommonModule
   ],
   controllers: [],
   providers: [RequestContext],
