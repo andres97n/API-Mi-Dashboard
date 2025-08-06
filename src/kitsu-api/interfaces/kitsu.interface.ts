@@ -29,12 +29,14 @@ export interface KitsuSearchResponse {
 
 export interface KitsuMainIndividualResponse {
   data: KitsuIndividualResponse;
-  errors?: Array<{
-    title: string;
-    detail: string;
-    code: string;
-    status: string;
-  }>;
+  errors?: KitsuErrorResponse[];
+}
+
+export interface KitsuErrorResponse {
+  title: string;
+  detail: string;
+  code: string;
+  status: string;
 }
 
 export interface KitsuIndividualResponse {

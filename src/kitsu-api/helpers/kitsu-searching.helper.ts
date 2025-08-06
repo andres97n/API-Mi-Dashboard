@@ -4,9 +4,10 @@ import { ApiService } from "src/common/services";
 import { SearchKitsuApiDto } from "../dto";
 import { KitsuResponse, KitsuSearchResponse } from "../interfaces";
 import { KITSU_API_BASE_URL, KITSU_ATTRIBUTE_DEFAULT } from "../constants";
+import { AxiosAdapter } from "src/common/adapters";
 
 
-const http = new HttpService();
+const http = new AxiosAdapter(new HttpService());
 
 export const kitsuSearching = async (
   kitsuSearchDto: SearchKitsuApiDto
