@@ -10,4 +10,4 @@ export const DEFAULT_PAGE = 1;
 
 export const DEFAULT_MONGO_URI = 'mongodb://localhost:27017/mi-dashboard';
 
-export const DEFAULT_EXCEPTION_MESSAGE = 'Internal server error';
+export const DEFAULT_EXCEPTION_MESSAGE = 'Internal server error, please contact support.';
