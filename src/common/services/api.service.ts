@@ -11,6 +11,8 @@ export class ApiService {
     apiUrl: string, 
     showError?: (data: any) => void
   ): Promise<T> {
+    console.log(this.axiosAdapter);
+    
     return await this.axiosAdapter.get<T>(apiUrl, showError);
   }
 }

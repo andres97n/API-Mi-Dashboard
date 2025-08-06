@@ -9,14 +9,16 @@ import { handleApiError } from '../helpers';
 @Injectable()
 export class AxiosAdapter implements HttpAdapter {
    
-  private readonly http: HttpService
+  constructor(
+    private readonly httpService: HttpService
+  ) {}
 
   get<T>(
     apiUrl: string, 
     showError?: (data: any) => void
   ): Promise<T> {
     return firstValueFrom(
-      this.http.get<T>(apiUrl).pipe(
+      this.httpService.get<T>(apiUrl).pipe(
         map(response => response.data),
         catchError(err => handleApiError(err, showError)),
       ),
