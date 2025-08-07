@@ -53,8 +53,9 @@ export const showErrorException = (
   statusCode?: number,
   subField?: string, 
 ): void => {
-    if (statusCode === 404) 
-      throw new NotFoundException(getErrorMessage(errors, subField));
+  
+  if (statusCode === 404) 
+    throw new NotFoundException(getErrorMessage(errors, subField));
 
     getExceptionDefault(500, getErrorMessage(errors, subField));
   }
