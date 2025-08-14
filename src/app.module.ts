@@ -1,20 +1,31 @@
 import * as https from 'node:https';
 import { Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
-import { SerieModule } from './serie/serie.module';
 import { HttpModule } from '@nestjs/axios';
+import { ConfigModule, ConfigService } from '@nestjs/config';
 
-import { DEFAULT_MONGO_URI } from './common/constants';
-// import { KitsuApiModule } from './kitsu-api/kitsu-api.module';
+import { SerieModule } from './serie/serie.module';
 import { RequestContext } from './common/providers';
 import { CommonModule } from './common/common.module';
+import { EnvConfiguration, JoiValidationSchema } from './config';
+// import { KitsuApiModule } from './kitsu-api/kitsu-api.module';
 
 
 @Module({
   imports: [
-    MongooseModule.forRoot(
-      process.env.DB_URI ?? DEFAULT_MONGO_URI
-    ),
+
+    ConfigModule.forRoot({
+      load: [ EnvConfiguration ],
+      validationSchema: JoiValidationSchema,
+    }),
+
+    MongooseModule.forRootAsync({
+      imports: [ConfigModule],
+      inject: [ConfigService],
+      useFactory: async (configService: ConfigService) => ({
+        uri: configService.get<string>('mongodbUri'),
+      }),
+    }),
     
     HttpModule.register({
       global: true,
@@ -24,11 +35,11 @@ import { CommonModule } from './common/common.module';
       // httpAgent: new http.Agent({ keepAlive: true }),
     }),
 
+    CommonModule,
     SerieModule,
 
     // KitsuApiModule,
 
-    CommonModule
   ],
   controllers: [],
   providers: [RequestContext],
