@@ -28,3 +28,7 @@ export const SerieViewStatus = [
   'UNSEEN_SERIES',
   'INCOMPLETE_VIEW_SERIES'
 ];
+
+export const BANNER_IMAGE_DEFAULT = 'https://placehold.co/1280x600';
+export const POSTER_IMAGE_DEFAULT = 'https://placehold.co/400x600';
+export const SYNOPSIS_DEFAULT = 'No synopsis available';
