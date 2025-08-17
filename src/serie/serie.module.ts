@@ -16,6 +16,7 @@ import { Serie, SerieSchema } from './entities/serie.entity';
         schema: SerieSchema,
       },
     ])
-  ]
+  ],
+  exports: [SerieService]
 })
 export class SerieModule {}

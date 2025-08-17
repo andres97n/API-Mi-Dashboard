@@ -31,8 +31,8 @@ export class SerieController {
 
   @ResponseMessage('Serie found successfully')
   @Get(':id')
-  findOne(@Param('id', ParseMongoIdPipe) id: string) {
-    return this.serieService.findOne(id);
+  findById(@Param('id', ParseMongoIdPipe) id: string) {
+    return this.serieService.findById(id);
   }
 
   @ResponseMessage('Serie updated successfully')
