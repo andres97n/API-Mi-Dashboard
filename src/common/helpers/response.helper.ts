@@ -12,7 +12,7 @@ export const successResponse = (
     ok: true,
     data: data?.data ?? data,
     statusCode,
-    message,
+    message: data?.message ?? message,
     timestamp: new Date().toISOString(),
     ...(data?.meta && { meta: data.meta }),
   }
