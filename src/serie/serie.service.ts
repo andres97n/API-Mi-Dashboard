@@ -40,10 +40,20 @@ export class SerieService {
     );
   }
 
-  async findOne(id: string) {
+  async findById(id: string) {
     const serie = await this.serieModel.findById(id);
     if (!serie) throw new NotFoundException(`Serie with id ${id} not found`);
     return serie;
+  }
+
+  async findOne(objectSearch: object) {
+    const serie = await this.serieModel.findOne(objectSearch);
+    if (!serie) throw new NotFoundException(`Serie not found`);
+    return serie;
+  }
+
+  async findOneWithoutException(objectSearch: object) {
+    return await this.serieModel.findOne(objectSearch);
   }
 
   async update(id: string, updateSerieDto: UpdateSerieDto) {
