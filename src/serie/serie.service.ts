@@ -8,15 +8,17 @@ import { handleExceptions } from 'src/common/utils';
 import { PaginationQueryDto } from 'src/common/dto/pagination-query.dto';
 import { paginate } from 'src/common/helpers/pagination.helper';
 import { SERIES_DEFAULT_FILTER } from './constants';
+import { GenericService } from 'src/common/services';
 
 
 @Injectable()
-export class SerieService {
-
+export class SerieService extends GenericService<Serie> {
   constructor(
     @InjectModel( Serie.name ) 
     private readonly serieModel: Model<Serie>,
-  ) {}
+  ) {
+    super(serieModel);
+  }
 
   async create(@Body() createSerieDto: CreateSerieDto) {
     try {
@@ -28,32 +30,12 @@ export class SerieService {
     }
   }
 
-  async findAll() {
-    return await this.serieModel.find(SERIES_DEFAULT_FILTER);
-  }
-
   async findAllWithFilter(paginationQuery: PaginationQueryDto) {
     return await paginate(
       this.serieModel, 
       paginationQuery, 
       SERIES_DEFAULT_FILTER
     );
-  }
-
-  async findById(id: string) {
-    const serie = await this.serieModel.findById(id);
-    if (!serie) throw new NotFoundException(`Serie with id ${id} not found`);
-    return serie;
-  }
-
-  async findOne(objectSearch: object) {
-    const serie = await this.serieModel.findOne(objectSearch);
-    if (!serie) throw new NotFoundException(`Serie not found`);
-    return serie;
-  }
-
-  async findOneWithoutException(objectSearch: object) {
-    return await this.serieModel.findOne(objectSearch);
   }
 
   async update(id: string, updateSerieDto: UpdateSerieDto) {
