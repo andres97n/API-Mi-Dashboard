@@ -1,10 +1,11 @@
-import { Controller, Get, Param, Query, ParseIntPipe, UseInterceptors } from '@nestjs/common';
+import { Controller, Get, Param, Query, ParseIntPipe, UseInterceptors, Post } from '@nestjs/common';
 import { ApiOperation } from '@nestjs/swagger';
 
 import { KitsuApiService } from './kitsu-api.service';
-import { SearchKitsuApiDto } from './dto';
-import { ApiResponseWrapper } from 'src/common/decorators';
+import { ApiResponseWrapper, ResponseMessage } from 'src/common/decorators';
 import { ReplaceKitsuApiUrlInterceptor } from './interceptors';
+import { SearchKitsuApiDto } from './dto';
+import { CreateSerieDto } from 'src/serie/dto';
 
 
 @Controller('kitsu-api')
@@ -37,4 +38,22 @@ export class KitsuApiController {
   ) {
     return this.kitsuApiService.findOne(id, type);
   }
+
+  @ApiOperation({ 
+    summary: 'Obtains additional kitsu information replacing with Kitsu AP url base' 
+  })
+  @ResponseMessage('Kitsu information retrieved successfully')
+  @Get('*rest')
+  findKitsuAdditionalInfo(@Param('rest') rest: string[]) {
+    return this.kitsuApiService.findAdditionalKitsuInformation(rest);
+  }
+
+  @ApiOperation({ summary: 'Creates a new series by Kitsu ID' })
+  @ApiResponseWrapper(CreateSerieDto, 200, 'Kitsu API found serie by ID and create new Series')
+  @ResponseMessage('Series created successfully')
+  @Post(':id')
+  createSerieByKitsuId(@Param('id', ParseIntPipe) id: number) {
+    return this.kitsuApiService.createSerieByKitsuId(id);
+  }
+
 }
