@@ -1,7 +1,6 @@
 import { HttpException } from "@nestjs/common";
 
 import { DEFAULT_EXCEPTION_MESSAGE } from "../constants";
-import { getExceptionDefault } from "./http-exception.helper";
 
 
 export const handleApiError = (
@@ -11,10 +10,8 @@ export const handleApiError = (
   const { status, data } = err.response || {};
   if (showError) showError(data);
 
-
-  // getExceptionDefault(500, );
   throw new HttpException(
-    'Fetch error',
+    DEFAULT_EXCEPTION_MESSAGE,
     status || 500
   );
 };

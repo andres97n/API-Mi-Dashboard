@@ -4,11 +4,11 @@ import { MongooseModule } from '@nestjs/mongoose';
 import { HttpModule } from '@nestjs/axios';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 
+import { KitsuApiModule } from './kitsu-api/kitsu-api.module';
 import { SerieModule } from './serie/serie.module';
 import { RequestContext } from './common/providers';
 import { CommonModule } from './common/common.module';
 import { EnvConfiguration, JoiValidationSchema } from './config';
-// import { KitsuApiModule } from './kitsu-api/kitsu-api.module';
 
 
 @Module({
@@ -37,8 +37,7 @@ import { EnvConfiguration, JoiValidationSchema } from './config';
 
     CommonModule,
     SerieModule,
-
-    // KitsuApiModule,
+    KitsuApiModule,
 
   ],
   controllers: [],
