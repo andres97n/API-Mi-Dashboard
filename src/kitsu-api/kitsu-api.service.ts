@@ -5,8 +5,8 @@ import { getKitsuErrorById, kitsuFindOneValidation } from './helpers';
 import { AxiosAdapter } from 'src/common/adapters';
 import { KitsuAnime, KitsuMainIndividualResponse, KitsuResponse } from './interfaces';
 import { KITSU_API_BASE_URL, KITSU_ATTRIBUTE_DEFAULT } from './constants';
-import { SerieService } from 'src/serie/serie.service';
 import { CreateSerieDto } from 'src/serie/dto/create-serie.dto';
+import { SerieService } from 'src/serie/services';
 import { 
   SerieEmissionStatusEnum, 
   SerieStatusEnum, 

@@ -1,10 +1,10 @@
 import { Controller, Get, Post, Body, Patch, Param, Delete, Query } from '@nestjs/common';
 
-import { SerieService } from './serie.service';
-import { CreateSerieDto, UpdateSerieDto } from './dto';
+import { CreateSerieDto, UpdateSerieDto } from '../dto';
 import { PaginationQueryDto } from 'src/common/dto/pagination-query.dto';
 import { ParseMongoIdPipe } from 'src/common/pipes';
 import { ResponseMessage } from 'src/common/decorators';
+import { SerieService } from '../services';
 
 
 @Controller('serie')
@@ -19,13 +19,7 @@ export class SerieController {
 
   @ResponseMessage('Series returned successfully')
   @Get()
-  findAll() {
-    return this.serieService.findAll();
-  }
-
-  @ResponseMessage('Series returned successfully')
-  @Get()
-  findAllWithFilter(@Query() query: PaginationQueryDto) {
+  findAll(@Query() query: PaginationQueryDto) {
     return this.serieService.findAllWithFilter(query);
   }
 
