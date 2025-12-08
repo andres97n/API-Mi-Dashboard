@@ -1,9 +1,8 @@
-import { Body, Injectable, NotFoundException } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 
 import { CreateSerieDto, UpdateSerieDto } from '../dto';
-import { handleExceptions } from 'src/common/utils';
 import { PaginationQueryDto } from 'src/common/dto/pagination-query.dto';
 import { paginate } from 'src/common/helpers/pagination.helper';
 import { GenericService } from 'src/common/services';
@@ -20,14 +19,8 @@ export class SerieService extends GenericService<Serie> {
     super(serieModel);
   }
 
-  async create(@Body() createSerieDto: CreateSerieDto) {
-    try {
-      const serie = await this.serieModel.create( createSerieDto );
-      return serie;
-
-    } catch (error) {
-      handleExceptions(error);
-    }
+  async create(createSerieDto: CreateSerieDto) {
+    return await super.create(createSerieDto);
   }
 
   async findAllWithFilter(paginationQuery: PaginationQueryDto) {
@@ -39,22 +32,10 @@ export class SerieService extends GenericService<Serie> {
   }
 
   async update(id: string, updateSerieDto: UpdateSerieDto) {
-    const serie = await this.serieModel.findByIdAndUpdate(
-      id,
-      updateSerieDto,
-      { new: true }
-    );
-    if (!serie) throw new NotFoundException(`Serie with id ${id} not found`);
-    return serie;
+    return await super.update(id, updateSerieDto, `Serie with id ${id} not found`);
   }
 
   async remove(id: string) {
-    const serie = await this.serieModel.findByIdAndUpdate(
-      id,
-      { state: 'D' },
-      { new: true }
-    );
-    if (!serie) throw new NotFoundException(`Serie with id ${id} not found`);
-    return serie;
+    return await super.remove(id, `Serie with id ${id} not found`);
   }
 }
