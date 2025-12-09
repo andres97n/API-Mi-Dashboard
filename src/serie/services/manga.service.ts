@@ -2,13 +2,12 @@ import { Injectable, Logger, Inject, forwardRef } from "@nestjs/common";
 import { InjectModel } from "@nestjs/mongoose";
 import { Model } from "mongoose";
 
-import { getSerieTypeLabel } from "../enums";
-import { SERIE_MANGA_LABEL } from "../constants";
 import { Manga } from "../entities";
 import { CreateSerieWithMangaDto } from "../dto";
 import { GenericService } from "src/common/services";
 import { SerieService } from "./serie.service";
 import { KitsuApiService } from "src/kitsu-api/kitsu-api.service";
+import { createMangaSerie, updateMangaSerie } from "../helpers";
 
 
 @Injectable()
@@ -27,42 +26,28 @@ export class MangaService extends GenericService<Manga> {
   }
 
   async createMangaAndSerie(createSerieWithMangaDto: CreateSerieWithMangaDto) {
-    const {
-      volumesNumber,
-      editorial,
-      editorialCountry,
-      language,
-      ...serieData
-    } = createSerieWithMangaDto;
     this.logger.debug({msg: "data received", createSerieWithMangaDto});
-    
-    let serie;
-    const type = createSerieWithMangaDto.type; 
-    const typeLabel = type ? getSerieTypeLabel(type) : SERIE_MANGA_LABEL;
+   
+    let serie = await createMangaSerie(
+      this.serieService,
+      this.kitsuApiService,
+      createSerieWithMangaDto
+    );
+    if (!serie) throw new Error('Failed to create serie');
 
-    if (createSerieWithMangaDto.externalId) {
-      serie = await this.kitsuApiService.createSerieByKitsuId(
-        + createSerieWithMangaDto.externalId,
-        typeLabel,
-        createSerieWithMangaDto.name
-      )
-    }
-
-    if (!createSerieWithMangaDto.externalId) {
-      serie = await this.serieService.create({
-        ...serieData,
-        type: typeLabel || type,
-      } as any);
-    }
-    
+    serie = await updateMangaSerie(
+      serie._id.toString(),
+      createSerieWithMangaDto,
+      this.serieService
+    );
     if (!serie) throw new Error('Failed to create serie');
 
     const manga = await this.create({
       idSerie: serie._id.toString(),
-      volumesNumber,
-      editorial,
-      editorialCountry,
-      language,
+      volumesNumber: createSerieWithMangaDto.volumesNumber,
+      editorial: createSerieWithMangaDto.editorial,
+      editorialCountry: createSerieWithMangaDto.editorialCountry,
+      language: createSerieWithMangaDto.language,
     });
     if (!manga) throw new Error('Failed to create manga');
 

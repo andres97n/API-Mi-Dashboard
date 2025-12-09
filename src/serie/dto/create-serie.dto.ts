@@ -38,7 +38,8 @@ export class CreateSerieDto {
   @ApiProperty({
     example: 'Synopsis de la serie',
     description: 'Sinopsis de la serie',
-    required: true,
+    required: false,
+    default: "S/N"
   })
   @IsString()
   @MinLength(10)

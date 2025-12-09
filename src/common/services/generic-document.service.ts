@@ -32,8 +32,7 @@ export class GenericService<T> {
 
   async create(createDto: any) {
     try {
-      const record = await this.model.create(createDto);
-      return record;
+      return await this.model.create(createDto);
     } catch (error) {
       handleExceptions(error);
     }
