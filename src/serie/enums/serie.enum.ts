@@ -28,3 +28,15 @@ export enum SerieViewStatusEnum {
   unseenSeries = 'UNSEEN_SERIES',
   incompleteViewSeries = 'INCOMPLETE_VIEW_SERIES'
 };
+
+export const SERIE_TYPE_LABEL_MAP: Record<SerieTypeEnum, string> = {
+  [SerieTypeEnum.animeSeries]: 'anime',
+  [SerieTypeEnum.mangaSeries]: 'manga',
+  [SerieTypeEnum.tvSeries]: 'serie de tv',
+  [SerieTypeEnum.movieSeries]: 'película',
+  [SerieTypeEnum.documentary]: 'documental',
+};
+
+export function getSerieTypeLabel(type: SerieTypeEnum | string): string {
+  return SERIE_TYPE_LABEL_MAP[type as SerieTypeEnum] || type;
+}

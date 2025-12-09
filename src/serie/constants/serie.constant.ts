@@ -35,3 +35,5 @@ export const SYNOPSIS_DEFAULT = 'No synopsis available';
 export const ID_EXTERNAL_DEFAULT = "123456";
 export const POSTER_IMAGE_DEFAULT_URL = "https://placehold.co/400x600";
 export const BANNER_IMAGE_DEFAULT_URL = "https://placehold.co/600x400";
+export const SERIE_ANIME_LABEL = "anime";
+export const SERIE_MANGA_LABEL = "manga";

@@ -27,6 +27,7 @@ export class CreateSerieWithMangaDto {
   })
   @IsString()
   @MinLength(1)
+  @IsOptional()
   readonly externalId: string;
 
   @ApiProperty({
@@ -132,7 +133,8 @@ export class CreateSerieWithMangaDto {
     example: 50,
     description: 'Progreso de compra de la serie',
     required: false,
-    default: 0
+    default: 0,
+    maximum: 100
   })
   @IsInt()
   @IsPositive()

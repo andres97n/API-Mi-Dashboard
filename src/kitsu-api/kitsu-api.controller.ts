@@ -6,6 +6,7 @@ import { ApiResponseWrapper, ResponseMessage } from 'src/common/decorators';
 import { ReplaceKitsuApiUrlInterceptor } from './interceptors';
 import { SearchKitsuApiDto } from './dto';
 import { CreateSerieDto } from 'src/serie/dto';
+import { SERIE_ANIME_LABEL } from 'src/serie/constants';
 
 
 @Controller('kitsu-api')
@@ -52,8 +53,11 @@ export class KitsuApiController {
   @ApiResponseWrapper(CreateSerieDto, 200, 'Kitsu API found serie by ID and create new Series')
   @ResponseMessage('Series created successfully')
   @Post(':id')
-  createSerieByKitsuId(@Param('id', ParseIntPipe) id: number) {
-    return this.kitsuApiService.createSerieByKitsuId(id);
+  createSerieByKitsuId(
+    @Param('id', ParseIntPipe) id: number,
+    @Param('type') type: string = SERIE_ANIME_LABEL
+  ) {
+    return this.kitsuApiService.createSerieByKitsuId(id, type);
   }
 
 }

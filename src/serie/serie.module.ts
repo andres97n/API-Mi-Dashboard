@@ -1,16 +1,18 @@
-import { Module } from '@nestjs/common';
+import { Module, forwardRef } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
 
 import { SerieController, MangaController } from './controllers';
 import { SerieService, MangaService } from './services';
 import { Serie, SerieSchema } from './entities/serie.entity';
 import { Manga, MangaSchema } from './entities/manga.entity';
+import { KitsuApiModule } from 'src/kitsu-api/kitsu-api.module';
 
 
 @Module({
   controllers: [SerieController, MangaController],
   providers: [SerieService, MangaService],
   imports: [
+    forwardRef(() => KitsuApiModule),
     MongooseModule.forFeature([
       {
         name: Serie.name,
@@ -20,7 +22,7 @@ import { Manga, MangaSchema } from './entities/manga.entity';
         name: Manga.name,
         schema: MangaSchema,
       },
-    ])
+    ]),
   ],
   exports: [SerieService, MangaService]
 })

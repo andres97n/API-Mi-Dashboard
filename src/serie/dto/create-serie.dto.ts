@@ -121,6 +121,8 @@ export class CreateSerieDto {
     example: 50,
     description: 'Progreso de descarga de la serie',
     required: false,
+    maximum: 100,
+    default: 0
   })
   @IsInt()
   @IsPositive()

@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, Inject, forwardRef } from '@nestjs/common';
 
 import { SearchKitsuApiDto } from './dto';
 import { getKitsuErrorById, kitsuFindOneValidation } from './helpers';
@@ -16,6 +16,7 @@ import {
 import { 
   BANNER_IMAGE_DEFAULT, 
   POSTER_IMAGE_DEFAULT, 
+  SERIE_ANIME_LABEL, 
   SYNOPSIS_DEFAULT 
 } from 'src/serie/constants';
 
@@ -25,6 +26,7 @@ export class KitsuApiService {
 
   constructor(
     private readonly http: AxiosAdapter,
+    @Inject(forwardRef(() => SerieService))
     private readonly serieService: SerieService,
   ) {}
 
@@ -52,7 +54,7 @@ export class KitsuApiService {
     }
   }
 
-  async findOne(id: number, type: string = 'anime') {
+  async findOne(id: number, type: string = SERIE_ANIME_LABEL) {
     kitsuFindOneValidation(id, type);
 
     const { data } = await this.http.get<KitsuMainIndividualResponse>(
@@ -77,12 +79,18 @@ export class KitsuApiService {
     return data;
   }
 
-  async createSerieByKitsuId(id: number) {
-    const kitsuSerie = await this.findOne(id);
+  async createSerieByKitsuId(
+    id: number, 
+    type: string = SERIE_ANIME_LABEL,
+    name: string | null = null
+  ) {
+    const kitsuSerie = await this.findOne(id, type);
     const serieDetail = kitsuSerie.attributes as KitsuAnime;
 
+    const serieName = name ?? (serieDetail.titles.en_jp || serieDetail.titles.en); 
+
     const newSerie: CreateSerieDto = {
-      name: serieDetail.titles.en_jp || serieDetail.titles.en,
+      name: serieName,
       externalId: kitsuSerie.id,
       type: SerieTypeEnum.animeSeries,
       synopsis: serieDetail.synopsis || SYNOPSIS_DEFAULT,
