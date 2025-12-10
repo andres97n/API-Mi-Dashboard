@@ -1,16 +1,23 @@
 import { Module, forwardRef } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
 
-import { SerieController, MangaController } from './controllers';
-import { SerieService, MangaService } from './services';
+import { SerieController, MangaController, VolumeController, BoxsetController } from './controllers';
+import { SerieService, MangaService, VolumeService, BoxsetService } from './services';
 import { Serie, SerieSchema } from './entities/serie.entity';
 import { Manga, MangaSchema } from './entities/manga.entity';
 import { KitsuApiModule } from 'src/kitsu-api/kitsu-api.module';
+import { Boxset, BoxsetSchema, Volume, VolumeSchema } from './entities';
 
 
 @Module({
-  controllers: [SerieController, MangaController],
-  providers: [SerieService, MangaService],
+  controllers: [
+    SerieController, MangaController, 
+    VolumeController, BoxsetController
+  ],
+  providers: [
+    SerieService, MangaService, 
+    VolumeService, BoxsetService
+  ],
   imports: [
     forwardRef(() => KitsuApiModule),
     MongooseModule.forFeature([
@@ -21,6 +28,14 @@ import { KitsuApiModule } from 'src/kitsu-api/kitsu-api.module';
       {
         name: Manga.name,
         schema: MangaSchema,
+      },
+      {
+        name: Volume.name,
+        schema: VolumeSchema,
+      },
+      {
+        name: Boxset.name,
+        schema: BoxsetSchema,
       },
     ]),
   ],

@@ -1,3 +1,10 @@
+import { 
+  MangaSchema, Manga, 
+  Serie, SerieSchema, 
+  Volume, VolumeSchema, 
+  Boxset, BoxsetSchema 
+} from "../entities";
+
 
 export const SerieType = [
   'ANIME_SERIES',

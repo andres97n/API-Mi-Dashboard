@@ -3,3 +3,7 @@ export * from "./update-serie.dto";
 export * from "./create-manga.dto";
 export * from "./update-manga.dto";
 export * from "./create-serie-with-manga.dto";
+export * from "./create-volume.dto";
+export * from "./update-volume.dto";
+export * from "./create-boxset.dto";
+export * from "./update-boxset.dto";
