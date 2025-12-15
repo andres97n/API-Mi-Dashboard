@@ -47,6 +47,15 @@ export class CreateSerieDto {
   readonly synopsis: string;
 
   @ApiProperty({
+    example: 'Autor de la serie',
+    description: 'Autor de la serie',
+    required: true,
+  })
+  @IsString()
+  @MinLength(3)
+  readonly author: string;
+
+  @ApiProperty({
     example: 300,
     description: 'Número de episodios de la serie',
     required: false,

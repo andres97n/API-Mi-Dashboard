@@ -57,7 +57,7 @@ export class KitsuApiController {
     @Param('id', ParseIntPipe) id: number,
     @Param('type') type: string = SERIE_ANIME_LABEL
   ) {
-    return this.kitsuApiService.createSerieByKitsuId(id, type);
+    return this.kitsuApiService.createSerieByKitsuId({ id, type });
   }
 
 }

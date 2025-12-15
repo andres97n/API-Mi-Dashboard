@@ -21,11 +21,13 @@ export const createMangaSerie = async (
   const typeLabel = type ? getSerieTypeLabel(type) : SERIE_MANGA_LABEL;
 
   if (createSerieWithMangaDto.externalId) {
-    const result = await kitsuApiService.createSerieByKitsuId(
-      + createSerieWithMangaDto.externalId,
-      typeLabel,
-      createSerieWithMangaDto.name
-    );
+    const createKitsuParameters = {
+      id: + (createSerieWithMangaDto.externalId),
+      type: typeLabel,
+      name: createSerieWithMangaDto.name,
+      author: createSerieWithMangaDto.author
+    }
+    const result = await kitsuApiService.createSerieByKitsuId( createKitsuParameters );
     return (result as any)?.data || result;
   }
 

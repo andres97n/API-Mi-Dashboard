@@ -79,11 +79,9 @@ export class KitsuApiService {
     return data;
   }
 
-  async createSerieByKitsuId(
-    id: number, 
-    type: string = SERIE_ANIME_LABEL,
-    name: string | null = null
-  ) {
+  async createSerieByKitsuId( createKitsuParameters ) {
+    const { id, type, name, author } = createKitsuParameters;
+
     const kitsuSerie = await this.findOne(id, type);
     const serieDetail = kitsuSerie.attributes as KitsuAnime;
 
@@ -93,6 +91,7 @@ export class KitsuApiService {
       name: serieName,
       externalId: kitsuSerie.id,
       type: SerieTypeEnum.animeSeries,
+      author,
       synopsis: serieDetail.synopsis || SYNOPSIS_DEFAULT,
       episodeCount: serieDetail.episodeCount ?? 0,
       startDate: new Date(serieDetail.startDate).toISOString(),

@@ -44,6 +44,13 @@ export class Serie extends BaseSchema{
   synopsis: string;
 
   @Prop({
+    type: String,
+    required: true,
+    trim: true,
+  })
+  author: string;
+
+  @Prop({
     type: Number,
     required: false,
     default: 0,
