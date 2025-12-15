@@ -18,6 +18,12 @@ export class Manga extends BaseSchema{
   })
   idSerie: mongoose.Types.ObjectId;
 
+  @Prop({
+    type: String,
+    required: true,
+  })
+  name: string;
+
   @Prop({ 
     type: Number,
     required: true,

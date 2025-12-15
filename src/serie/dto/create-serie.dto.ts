@@ -72,7 +72,7 @@ export class CreateSerieDto {
   @IsDate()
   @IsOptional()
   @Transform(({ value }) => getDateFromString(value))
-  readonly endDate: string;
+  readonly endDate?: string;
   
   @ApiProperty({
     example: 'https://example.com/poster.jpg',
@@ -89,7 +89,7 @@ export class CreateSerieDto {
   })
   @IsUrl()
   @IsOptional()
-  readonly bannerImageUrl: string;
+  readonly bannerImageUrl?: string;
 
   @ApiProperty({
     example: 'EMPTY',
@@ -128,6 +128,6 @@ export class CreateSerieDto {
   @IsInt()
   @IsPositive()
   @IsOptional()
-  readonly progress: number;
+  readonly progress?: number;
 
 }

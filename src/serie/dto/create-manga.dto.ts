@@ -15,6 +15,15 @@ export class CreateMangaDto {
   readonly idSerie: string;
 
   @ApiProperty({
+    example: 'Naruto',
+    description: 'Nombre del manga',
+    required: true,
+  })
+  @IsString()
+  @MinLength(2)
+  readonly name: string;
+
+  @ApiProperty({
     example: 42,
     description: 'Número de volúmenes del manga',
     required: true,

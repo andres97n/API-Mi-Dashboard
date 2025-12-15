@@ -64,11 +64,12 @@ export class CreateSerieWithMangaDto {
   @ApiProperty({
     example: '1990-04-26',
     description: 'Fecha de inicio de la serie',
-    required: true,
+    required: false,
   })
   @IsDate()
-  @Transform(({ value }) => getDateFromString(value))
-  readonly startDate: string;
+  @IsOptional()
+  @Transform(({ value }) => value ? getDateFromString(value) : "")
+  readonly startDate?: string;
   
   @ApiProperty({
     example: '1990-04-26',
@@ -87,7 +88,8 @@ export class CreateSerieWithMangaDto {
     default: POSTER_IMAGE_DEFAULT_URL
   })
   @IsUrl()
-  readonly posterImageUrl: string;
+  @IsOptional()
+  readonly posterImageUrl?: string;
 
   @ApiProperty({
     example: 'https://example.com/banner.jpg',

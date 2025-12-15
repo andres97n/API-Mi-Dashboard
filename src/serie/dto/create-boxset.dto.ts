@@ -57,6 +57,14 @@ export class CreateBoxsetDto {
   readonly price: number;
 
   @ApiProperty({
+    example: 1,
+    description: 'Número de cofre',
+    required: true,
+  })
+  @IsNumber()
+  boxsetNumber: number;
+
+  @ApiProperty({
     example: VOLUME_BOUGHT,
     description: "Estado de compra",
     required: false,
@@ -64,7 +72,7 @@ export class CreateBoxsetDto {
   })
   @IsEnum(PurchaseStatusEnum)
   @IsOptional()
-  readonly purchaseStatus: PurchaseStatusEnum;
+  readonly purchaseStatus?: PurchaseStatusEnum;
 
   @ApiProperty({
     example: "17.5 x 20 x 25.5 cm",
@@ -73,7 +81,7 @@ export class CreateBoxsetDto {
   })
   @IsString()
   @IsOptional()
-  readonly dimensions: number;
+  readonly dimensions?: number;
 
   @ApiProperty({
     example: "https://amazon.com",
@@ -82,6 +90,6 @@ export class CreateBoxsetDto {
   })
   @IsUrl()
   @IsOptional()
-  readonly informationUrl: string;
+  readonly informationUrl?: string;
 
 }

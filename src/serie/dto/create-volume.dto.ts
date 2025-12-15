@@ -22,7 +22,7 @@ export class CreateVolumeDto {
   })
   @IsMongoId()
   @IsOptional()
-  readonly idBoxset: string | null;
+  readonly idBoxset?: string | null;
 
   @ApiProperty({
     example: POSTER_IMAGE_DEFAULT_URL,
@@ -31,7 +31,7 @@ export class CreateVolumeDto {
   })
   @IsUrl()
   @IsOptional()
-  readonly posterUrl: string;
+  readonly posterUrl?: string;
 
   @ApiProperty({
     example: 42,
@@ -76,7 +76,7 @@ export class CreateVolumeDto {
   @IsString()
   @MinLength(2)
   @IsOptional()
-  readonly details: string;
+  readonly details?: string;
 
   @ApiProperty({
     example: '978-1421599779',
@@ -86,7 +86,7 @@ export class CreateVolumeDto {
   @IsString()
   @MinLength(2)
   @IsOptional()
-  readonly isbn: string;
+  readonly isbn?: string;
 
   @ApiProperty({
     example: VOLUME_BOUGHT,
@@ -96,7 +96,7 @@ export class CreateVolumeDto {
   })
   @IsEnum(PurchaseStatusEnum)
   @IsOptional()
-  readonly purchaseStatus: PurchaseStatusEnum;
+  readonly purchaseStatus?: PurchaseStatusEnum;
 
   @ApiProperty({
     example: LoinTypeEnum.paperback,
@@ -106,7 +106,7 @@ export class CreateVolumeDto {
   })
   @IsEnum(LoinTypeEnum)
   @IsOptional()
-  readonly loinType: LoinTypeEnum;
+  readonly loinType?: LoinTypeEnum;
 
   @ApiProperty({
     example: "https://amazon.com",
@@ -115,5 +115,5 @@ export class CreateVolumeDto {
   })
   @IsUrl()
   @IsOptional()
-  readonly informationUrl: string;
+  readonly informationUrl?: string;
 }

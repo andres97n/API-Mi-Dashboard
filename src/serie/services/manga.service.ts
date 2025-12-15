@@ -28,6 +28,11 @@ export class MangaService extends GenericService<Manga> {
   async createMangaAndSerie(createSerieWithMangaDto: CreateSerieWithMangaDto) {
     this.logger.debug({msg: "data received", createSerieWithMangaDto});
    
+    if (
+      !createSerieWithMangaDto.externalId && 
+      !createSerieWithMangaDto.startDate
+    ) throw new Error("startDate is required");
+
     let serie = await createMangaSerie(
       this.serieService,
       this.kitsuApiService,
@@ -44,6 +49,7 @@ export class MangaService extends GenericService<Manga> {
 
     const manga = await this.create({
       idSerie: serie._id.toString(),
+      name: serie.name,
       volumesNumber: createSerieWithMangaDto.volumesNumber,
       editorial: createSerieWithMangaDto.editorial,
       editorialCountry: createSerieWithMangaDto.editorialCountry,

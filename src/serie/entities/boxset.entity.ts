@@ -37,6 +37,12 @@ export class Boxset extends BaseSchema{
   pagesNumber: number;
 
   @Prop({ 
+    type: Number,
+    required: true,
+  })
+  boxsetNumber: number;
+
+  @Prop({ 
     type: String,
     required: false,
   })
