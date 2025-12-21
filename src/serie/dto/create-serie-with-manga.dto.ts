@@ -28,7 +28,7 @@ export class CreateSerieWithMangaDto {
   @IsString()
   @MinLength(1)
   @IsOptional()
-  readonly externalId: string;
+  readonly externalId?: string;
 
   @ApiProperty({
     example: 'MANGA_SERIES',

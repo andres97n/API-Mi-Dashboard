@@ -22,7 +22,7 @@ export class Serie extends BaseSchema{
 
   @Prop({ 
     type: String,
-    required: true,
+    required: false,
     unique: true,
   })
   externalId: string;

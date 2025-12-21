@@ -20,11 +20,12 @@ export class CreateSerieDto {
   @ApiProperty({
     example: 1,
     description: 'ID externo de la serie',
-    required: true,
+    required: false,
   })
   @IsString()
   @MinLength(1)
-  readonly externalId: string;
+  @IsOptional()
+  readonly externalId?: string;
 
   @ApiProperty({
     example: 'ANIME_SERIES',
