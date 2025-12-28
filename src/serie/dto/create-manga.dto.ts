@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsEnum, IsMongoId, IsNumber, IsPositive, IsString, MinLength } from 'class-validator';
+import { IsBoolean, IsEnum, IsMongoId, IsNumber, IsPositive, IsString, MinLength } from 'class-validator';
 
 import { MANGA_LANGUAGES } from '../constants/manga.constant';
 import { MangaLanguageEnum } from '../enums';
@@ -58,5 +58,13 @@ export class CreateMangaDto {
   })
   @IsEnum(MangaLanguageEnum)
   readonly language: MangaLanguageEnum;
+
+  @ApiProperty({
+    example: true,
+    description: 'Es un Artbook',
+    required: false,
+  })
+  @IsBoolean()
+  readonly isArtbook: boolean;
 }
 

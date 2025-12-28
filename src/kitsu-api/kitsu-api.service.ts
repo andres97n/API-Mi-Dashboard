@@ -104,10 +104,10 @@ export class KitsuApiService {
       progress: 0
     };
 
-    const existingSerie = await this.serieService.findOneWithoutException({
-      externalId: kitsuSerie.id
-    });
-    if (existingSerie) return { data: existingSerie, message: "Serie already exists" };
+    // const existingSerie = await this.serieService.findOneWithoutException({
+    //   externalId: kitsuSerie.id
+    // });
+    // if (existingSerie) return { data: existingSerie, message: "Serie already exists" };
 
     return this.serieService.create(newSerie);
   }

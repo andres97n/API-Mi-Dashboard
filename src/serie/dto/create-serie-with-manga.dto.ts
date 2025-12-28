@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsDate, IsEnum, IsInt, IsNumber, IsOptional, IsPositive, IsString, IsUrl, MinLength } from 'class-validator';
+import { IsBoolean, IsDate, IsEnum, IsInt, IsNumber, IsOptional, IsPositive, IsString, IsUrl, MinLength } from 'class-validator';
 import { Transform } from 'class-transformer';
 
 import { BANNER_IMAGE_DEFAULT_URL, ID_EXTERNAL_DEFAULT, POSTER_IMAGE_DEFAULT_URL, SerieEmissionStatus, SerieStatus, SerieType, SerieViewStatus } from 'src/serie/constants';
@@ -187,5 +187,13 @@ export class CreateSerieWithMangaDto {
   })
   @IsEnum(MangaLanguageEnum)
   readonly language: MangaLanguageEnum;
+
+  @ApiProperty({
+    example: true,
+    description: 'Es un Artbook',
+    required: false,
+  })
+  @IsBoolean()
+  readonly isArtbook: boolean;
 }
 

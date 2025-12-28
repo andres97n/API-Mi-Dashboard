@@ -49,6 +49,13 @@ export class Manga extends BaseSchema{
     enum: [...MANGA_LANGUAGES],
   })
   language: string;
+
+  @Prop({
+    type: Boolean,
+    required: false,
+    default: false
+  })
+  isArtbook: boolean;
   
 }
 
