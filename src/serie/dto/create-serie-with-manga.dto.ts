@@ -13,11 +13,21 @@ export class CreateSerieWithMangaDto {
   @ApiProperty({
     example: 'Dragon Ball Z',
     description: 'Nombre de la serie',
+    required: false,
+  })
+  @IsString()
+  @MinLength(2)
+  @IsOptional()
+  readonly name?: string;
+
+  @ApiProperty({
+    example: 'Dragon Ball Z Legend',
+    description: 'Nombre de la edición del manga',
     required: true,
   })
   @IsString()
   @MinLength(2)
-  readonly name: string;
+  readonly mangaEditionName: string;
 
   @ApiProperty({
     example: 1,
@@ -194,6 +204,7 @@ export class CreateSerieWithMangaDto {
     required: false,
   })
   @IsBoolean()
+  @IsOptional()
   readonly isArtbook: boolean;
 }
 

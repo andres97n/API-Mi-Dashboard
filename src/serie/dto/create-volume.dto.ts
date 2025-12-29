@@ -1,5 +1,5 @@
 import { ApiProperty } from "@nestjs/swagger";
-import { IsDate, IsEnum, IsMongoId, IsNumber, IsOptional, IsPositive, IsString, IsUrl, MinLength } from "class-validator";
+import { IsBoolean, IsDate, IsEnum, IsMongoId, IsNumber, IsOptional, IsPositive, IsString, IsUrl, MinLength } from "class-validator";
 import { Transform } from "class-transformer";
 
 import { LoinTypeEnum, PurchaseStatusEnum } from "../enums";
@@ -116,4 +116,13 @@ export class CreateVolumeDto {
   @IsUrl()
   @IsOptional()
   readonly informationUrl?: string;
+
+  @ApiProperty({
+    example: true,
+    description: 'Es edición especial?',
+    required: false,
+  })
+  @IsBoolean()
+  @IsOptional()
+  readonly isEspecialEdition?: boolean;
 }

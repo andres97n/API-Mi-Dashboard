@@ -91,6 +91,13 @@ export class Volume extends BaseSchema{
     required: false,
   })
   informationUrl: string;
+
+  @Prop({ 
+    type: Boolean,
+    required: false,
+    default: false
+  })
+  isEspecialEdition: boolean;
 }
 
 const VolumeSchema = SchemaFactory.createForClass(Volume);

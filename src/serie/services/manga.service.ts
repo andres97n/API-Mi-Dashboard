@@ -49,7 +49,7 @@ export class MangaService extends GenericService<Manga> {
 
     const manga = await this.create({
       idSerie: serie._id.toString(),
-      name: serie.name,
+      name: createSerieWithMangaDto.mangaEditionName,
       volumesNumber: createSerieWithMangaDto.volumesNumber,
       editorial: createSerieWithMangaDto.editorial,
       editorialCountry: createSerieWithMangaDto.editorialCountry,

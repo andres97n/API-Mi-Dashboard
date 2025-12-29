@@ -15,6 +15,7 @@ export const createMangaSerie = async (
     editorial,
     editorialCountry,
     language,
+    mangaEditionName,
     ...serieData
   } = createSerieWithMangaDto;
   const type = createSerieWithMangaDto.type; 
