@@ -1,7 +1,7 @@
 import { DocumentBuilder } from '@nestjs/swagger/dist/document-builder';
 import { NestFactory, Reflector } from '@nestjs/core';
 import { SwaggerModule } from '@nestjs/swagger';
-import { ValidationPipe, VersioningType } from '@nestjs/common';
+import { Logger, ValidationPipe, VersioningType } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 
 import { AppModule } from './app.module';
@@ -48,7 +48,7 @@ async function bootstrap() {
   });
   
   await app.listen(port);
-  console.log(`App running on port ${ port }`)
+  Logger.log(`Application is running on: http://localhost:${port}/${globalPrefix}`, 'Bootstrap');
 }
 
 bootstrap();
