@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common';
+import { Module, forwardRef } from '@nestjs/common';
 
 import { KitsuApiService } from './kitsu-api.service';
 import { KitsuApiController } from './kitsu-api.controller';
@@ -8,8 +8,9 @@ import { SerieModule } from 'src/serie/serie.module';
 
 
 @Module({
-  imports: [CommonModule, SerieModule],
+  imports: [CommonModule, forwardRef(() => SerieModule)],
   controllers: [KitsuApiController],
   providers: [KitsuApiService, ReplaceKitsuApiUrlInterceptor],
+  exports: [KitsuApiService],
 })
 export class KitsuApiModule {}

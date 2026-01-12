@@ -22,8 +22,8 @@ export class Serie extends BaseSchema{
 
   @Prop({ 
     type: String,
-    required: true,
-    unique: true,
+    required: false,
+    // unique: true,
   })
   externalId: string;
 
@@ -42,6 +42,13 @@ export class Serie extends BaseSchema{
     default: 'S/N',
   })
   synopsis: string;
+
+  @Prop({
+    type: String,
+    required: true,
+    trim: true,
+  })
+  author: string;
 
   @Prop({
     type: Number,

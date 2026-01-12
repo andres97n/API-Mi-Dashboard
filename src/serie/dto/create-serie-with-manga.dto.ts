@@ -1,26 +1,39 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsDate, IsEnum, IsInt, IsOptional, IsPositive, IsString, IsUrl, MinLength  } from 'class-validator';
+import { IsBoolean, IsDate, IsEnum, IsInt, IsNumber, IsOptional, IsPositive, IsString, IsUrl, MinLength } from 'class-validator';
 import { Transform } from 'class-transformer';
 
-import { SerieEmissionStatus, SerieStatus, SerieType, SerieViewStatus } from 'src/serie/constants';
+import { BANNER_IMAGE_DEFAULT_URL, ID_EXTERNAL_DEFAULT, POSTER_IMAGE_DEFAULT_URL, SerieEmissionStatus, SerieStatus, SerieType, SerieViewStatus } from 'src/serie/constants';
+import { MANGA_LANGUAGES } from '../constants/manga.constant';
 import { getDateFromString } from 'src/common/utils';
 import { SerieEmissionStatusEnum, SerieStatusEnum, SerieTypeEnum, SerieViewStatusEnum } from 'src/serie/enums';
+import { MangaLanguageEnum } from '../enums';
 
 
-export class CreateSerieDto {
+export class CreateSerieWithMangaDto {
   @ApiProperty({
     example: 'Dragon Ball Z',
     description: 'Nombre de la serie',
+    required: false,
+  })
+  @IsString()
+  @MinLength(2)
+  @IsOptional()
+  readonly name?: string;
+
+  @ApiProperty({
+    example: 'Dragon Ball Z Legend',
+    description: 'Nombre de la edición del manga',
     required: true,
   })
   @IsString()
   @MinLength(2)
-  readonly name: string;
+  readonly mangaEditionName: string;
 
   @ApiProperty({
     example: 1,
     description: 'ID externo de la serie',
     required: false,
+    default: ID_EXTERNAL_DEFAULT
   })
   @IsString()
   @MinLength(1)
@@ -28,24 +41,25 @@ export class CreateSerieDto {
   readonly externalId?: string;
 
   @ApiProperty({
-    example: 'ANIME_SERIES',
+    example: 'MANGA_SERIES',
     description: 'Tipo de serie',
-    required: true,
+    required: false,
     enum: [...SerieType],
+    default: "MANGA_SERIES"
   })
   @IsEnum(SerieTypeEnum)
+  @IsOptional()
   readonly type: SerieTypeEnum;
 
   @ApiProperty({
     example: 'Synopsis de la serie',
     description: 'Sinopsis de la serie',
     required: false,
-    default: "S/N"
   })
   @IsString()
   @MinLength(10)
   @IsOptional()
-  readonly synopsis: string;
+  readonly synopsis?: string;
 
   @ApiProperty({
     example: 'Autor de la serie',
@@ -60,19 +74,21 @@ export class CreateSerieDto {
     example: 300,
     description: 'Número de episodios de la serie',
     required: false,
+    default: 0
   })
   @IsInt()
   @IsOptional()
-  readonly episodeCount: number;
+  readonly episodeCount?: number;
 
   @ApiProperty({
     example: '1990-04-26',
     description: 'Fecha de inicio de la serie',
-    required: true,
+    required: false,
   })
   @IsDate()
-  @Transform(({ value }) => getDateFromString(value))
-  readonly startDate: string;
+  @IsOptional()
+  @Transform(({ value }) => value ? getDateFromString(value) : "")
+  readonly startDate?: string;
   
   @ApiProperty({
     example: '1990-04-26',
@@ -87,15 +103,18 @@ export class CreateSerieDto {
   @ApiProperty({
     example: 'https://example.com/poster.jpg',
     description: 'URL del poster de la serie',
-    required: true,
+    required: false,
+    default: POSTER_IMAGE_DEFAULT_URL
   })
   @IsUrl()
-  readonly posterImageUrl: string;
+  @IsOptional()
+  readonly posterImageUrl?: string;
 
   @ApiProperty({
     example: 'https://example.com/banner.jpg',
     description: 'URL del banner de la serie',
     required: false,
+    default: BANNER_IMAGE_DEFAULT_URL
   })
   @IsUrl()
   @IsOptional()
@@ -108,7 +127,8 @@ export class CreateSerieDto {
     enum: [...SerieStatus],
   })
   @IsEnum(SerieStatusEnum)
-  readonly status: SerieStatusEnum;
+  @IsOptional()
+  readonly status?: SerieStatusEnum;
   
   @ApiProperty({
     example: 'SERIES_NOT_STARTED',
@@ -117,8 +137,9 @@ export class CreateSerieDto {
     enum: [...SerieEmissionStatus]
   })
   @IsEnum(SerieEmissionStatusEnum)
-  readonly emissionStatus: SerieEmissionStatusEnum;
-  
+  @IsOptional()
+  readonly emissionStatus?: SerieEmissionStatusEnum;
+
   @ApiProperty({
     example: 'UNSEEN_SERIES',
     description: 'Estado de visualización de la serie',
@@ -126,18 +147,64 @@ export class CreateSerieDto {
     enum: [...SerieViewStatus]
   })
   @IsEnum(SerieViewStatusEnum)
-  readonly viewStatus: SerieViewStatusEnum;
-  
+  @IsOptional()
+  readonly viewStatus?: SerieViewStatusEnum;
+
   @ApiProperty({
     example: 50,
-    description: 'Progreso de descarga de la serie',
+    description: 'Progreso de compra de la serie',
     required: false,
-    maximum: 100,
-    default: 0
+    default: 0,
+    maximum: 100
   })
   @IsInt()
-  @IsPositive()
   @IsOptional()
   readonly progress?: number;
 
+//Manga Fields
+  @ApiProperty({
+    example: 42,
+    description: 'Número de volúmenes del manga',
+    required: true,
+  })
+  @IsNumber()
+  @IsPositive()
+  readonly volumesNumber: number;
+
+  @ApiProperty({
+    example: 'Editorial Panini',
+    description: 'Nombre de la editorial',
+    required: true,
+  })
+  @IsString()
+  @MinLength(2)
+  readonly editorial: string;
+
+  @ApiProperty({
+    example: 'España',
+    description: 'País de la editorial',
+    required: true,
+  })
+  @IsString()
+  @MinLength(2)
+  readonly editorialCountry: string;
+
+  @ApiProperty({
+    example: 'Castellano',
+    description: 'Idioma del manga',
+    required: true,
+    enum: [...MANGA_LANGUAGES],
+  })
+  @IsEnum(MangaLanguageEnum)
+  readonly language: MangaLanguageEnum;
+
+  @ApiProperty({
+    example: true,
+    description: 'Es un Artbook',
+    required: false,
+  })
+  @IsBoolean()
+  @IsOptional()
+  readonly isArtbook: boolean;
 }
+

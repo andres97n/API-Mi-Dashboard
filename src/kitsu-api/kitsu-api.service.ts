@@ -1,12 +1,12 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, Inject, forwardRef } from '@nestjs/common';
 
 import { SearchKitsuApiDto } from './dto';
 import { getKitsuErrorById, kitsuFindOneValidation } from './helpers';
 import { AxiosAdapter } from 'src/common/adapters';
 import { KitsuAnime, KitsuMainIndividualResponse, KitsuResponse } from './interfaces';
 import { KITSU_API_BASE_URL, KITSU_ATTRIBUTE_DEFAULT } from './constants';
-import { SerieService } from 'src/serie/serie.service';
 import { CreateSerieDto } from 'src/serie/dto/create-serie.dto';
+import { SerieService } from 'src/serie/services';
 import { 
   SerieEmissionStatusEnum, 
   SerieStatusEnum, 
@@ -16,6 +16,7 @@ import {
 import { 
   BANNER_IMAGE_DEFAULT, 
   POSTER_IMAGE_DEFAULT, 
+  SERIE_ANIME_LABEL, 
   SYNOPSIS_DEFAULT 
 } from 'src/serie/constants';
 
@@ -25,6 +26,7 @@ export class KitsuApiService {
 
   constructor(
     private readonly http: AxiosAdapter,
+    @Inject(forwardRef(() => SerieService))
     private readonly serieService: SerieService,
   ) {}
 
@@ -52,7 +54,7 @@ export class KitsuApiService {
     }
   }
 
-  async findOne(id: number, type: string = 'anime') {
+  async findOne(id: number, type: string = SERIE_ANIME_LABEL) {
     kitsuFindOneValidation(id, type);
 
     const { data } = await this.http.get<KitsuMainIndividualResponse>(
@@ -77,18 +79,23 @@ export class KitsuApiService {
     return data;
   }
 
-  async createSerieByKitsuId(id: number) {
-    const kitsuSerie = await this.findOne(id);
+  async createSerieByKitsuId( createKitsuParameters ) {
+    const { id, type, name, author } = createKitsuParameters;
+
+    const kitsuSerie = await this.findOne(id, type);
     const serieDetail = kitsuSerie.attributes as KitsuAnime;
 
+    const serieName = name ?? (serieDetail.titles.en_jp || serieDetail.titles.en); 
+
     const newSerie: CreateSerieDto = {
-      name: serieDetail.titles.en_jp || serieDetail.titles.en,
+      name: serieName,
       externalId: kitsuSerie.id,
       type: SerieTypeEnum.animeSeries,
+      author,
       synopsis: serieDetail.synopsis || SYNOPSIS_DEFAULT,
       episodeCount: serieDetail.episodeCount ?? 0,
-      startDate: new Date(serieDetail.startDate || '').toISOString(),
-      endDate: new Date(serieDetail.endDate || '').toISOString(),
+      startDate: new Date(serieDetail.startDate).toISOString(),
+      ...(serieDetail.endDate ? { endDate: new Date(serieDetail.endDate).toISOString() } : {}),
       posterImageUrl: serieDetail.posterImage?.original || BANNER_IMAGE_DEFAULT,
       bannerImageUrl: serieDetail.coverImage?.original || POSTER_IMAGE_DEFAULT,
       status: SerieStatusEnum.empty,
@@ -97,10 +104,10 @@ export class KitsuApiService {
       progress: 0
     };
 
-    const existingSerie = await this.serieService.findOneWithoutException({
-      externalId: kitsuSerie.id
-    });
-    if (existingSerie) return { data: existingSerie, message: "Serie already exists" };
+    // const existingSerie = await this.serieService.findOneWithoutException({
+    //   externalId: kitsuSerie.id
+    // });
+    // if (existingSerie) return { data: existingSerie, message: "Serie already exists" };
 
     return this.serieService.create(newSerie);
   }
